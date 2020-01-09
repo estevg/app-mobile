@@ -1,12 +1,10 @@
-import React, { Component, useEffect } from 'react'
-import { View, StyleSheet, ScrollView, TextInput, SafeAreaView, FlatList, Image, Dimensions, TouchableOpacity } from 'react-native'
-import {Text } from 'native-base'
+import React, { useEffect, } from 'react'
+import { View, StyleSheet, ScrollView,  SafeAreaView, FlatList, TouchableOpacity, Text } from 'react-native'
 import CustomHeader from '../../../components/CustomHeader'
 import { NavigationActions } from 'react-navigation'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { obtenerHoteles } from '../../../actions/hotelActions';
-import { seleccionarHotel } from '../../../actions/hotelActions';
 // Componentes 
 import HotelList from '../../../components/HotelList/HotelList';
 import FeaturedHotel from '../../../components/FeaturedHotel/FeaturedHotel';
@@ -14,7 +12,7 @@ import FeaturedHotel from '../../../components/FeaturedHotel/FeaturedHotel';
 
  
 
-const Fedd = (props) => {
+const Hotel = (props) => {
 
 const dispatch = useDispatch();
 
@@ -28,12 +26,9 @@ const data = useSelector((state => state.hoteles.hoteles));
 let hotelDestacado = data.filter( hotel => hotel.puntuacion >= 5)
 
 const viewHotel = item => {
-    // console.log(item._id)
-    // dispatch( seleccionarHotel(item._id) )
-
     props.navigation.dispatch(
         NavigationActions.navigate({
-            routeName: 'FeedDetails',
+            routeName: 'HotelDetails',
             params: {
                 id: item._id
             }
@@ -41,21 +36,22 @@ const viewHotel = item => {
     )
 }
 
-// const loading = useSelector((state => state.productos.loading));
-// const error = useSelector((state => state.productos.error ));
-
-// console.log(data)
-
-
+const searchHotel = () => {
+    props.navigation.dispatch(
+        NavigationActions.navigate({
+            routeName: 'Search',
+        })
+    )
+}
 
     return ( 
         <SafeAreaView style={style.flex}>
             <View style={style.flex}>
-                <CustomHeader title='Lista de hoteles' isHome={true} navigation={props.navigation} />
+                <CustomHeader title='Lista de Hoteles' isHome={true} navigation={props.navigation} />
             <ScrollView>
-                <View style={style.containerInput}>
-                    <TextInput style={style.input} placeholder="Buscar Hotel" placeholderTextColor="gray" />
-                </View>
+                <TouchableOpacity style={style.containerInput} onPress={() => {searchHotel()}}>
+                    <Text style={style.input} > Buscar Hotel...</Text>
+                </TouchableOpacity>
                 <View style={style.conatinerTitle} >
                     <Text style={style.titleStyle} >Hoteles Disponibles</Text>
                 </View>
@@ -80,7 +76,8 @@ const viewHotel = item => {
                     ScrollView={true}
                     data={hotelDestacado}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={({item, index}) => <FeaturedHotel data={item}  />}
+                    renderItem={({item, index}) => 
+                    <FeaturedHotel data={item} onPress={() => {viewHotel(item)}} />}
                 />
             </ScrollView>
             </View>
@@ -104,9 +101,10 @@ const style = StyleSheet.create({
         borderRadius: 10,
         fontWeight: '700',
         borderWidth: 2,
-        borderColor: "#dddddd",
+        borderColor: "#1e272e",
         paddingHorizontal: 20,
-        marginHorizontal: 20
+        marginHorizontal: 20,
+        paddingTop: 20
     },
     conatinerTitle: {
         marginTop: 20,
@@ -118,4 +116,4 @@ const style = StyleSheet.create({
     }
 })
  
-export default Fedd;
+export default Hotel;

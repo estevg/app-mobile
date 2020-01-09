@@ -6,10 +6,12 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import {IMAGE} from './components/constans/image'; 
 
-import Feed from './screens/tabs/feed/Feed'
-import FeedDetails from './screens/tabs/feed/FeedDetails'
-import { SideMenu, Search, SearchDetails, 
-Profile, Setting, Login, Register
+import Hotel from './screens/tabs/hotel/Hotel'
+import HotelDetails from './screens/tabs/hotel/HotelDetails'
+import Search from './screens/tabs/search/Search'
+
+import { SideMenu, SearchDetails, 
+Profile, Login, Register
 } from './routes'
 
 
@@ -17,21 +19,18 @@ const navOptionHandler = (navigation) => ({
     header: null
 })
 
-const FeedStack = createStackNavigator({
-    Feed: {
-        screen: Feed,
+const HotelStack = createStackNavigator({
+    Hotel: {
+        screen: Hotel,
         navigationOptions: navOptionHandler
     },
-    FeedDetails: {
-        screen: FeedDetails,
+    HotelDetails: {
+        screen: HotelDetails,
         navigationOptions: navOptionHandler
-    }
-})
-
-const SearchStack = createStackNavigator({
+    },
     Search: {
-        screen: Search,
-        navigationOptions: navOptionHandler
+      screen: Search,
+      navigationOptions: navOptionHandler
     },
     SearchDetails: {
         screen: SearchDetails,
@@ -40,50 +39,9 @@ const SearchStack = createStackNavigator({
 })
 
 
-const MainTabs = createBottomTabNavigator({
-  Feed: {
-    screen: FeedStack,
-    navigationOptions: {
-      tabBarLabel: 'Feed',
-      tabBarIcon: ({tintColor}) => (
-        <Image 
-          source={IMAGE.ICON_PICTURE_DEFAULT}
-          resizeMode="contain"
-          style={{width: 20, height: 20}}
-        />
-      )
-    }
-  },
-  Search: {
-    screen: SearchStack,
-    navigationOptions: {
-      tabBarLabel: 'Search',
-      tabBarIcon: ({tintColor}) => (
-        <Image 
-          source={IMAGE.ICON_PICTURE_DEFAULT}
-          resizeMode="contain"
-          style={{width: 20, height: 20}}
-        />
-      ),
-    }
-  },
-}, {
-  tabBarOptions: {
-    activeTintColor: 'black',
-    labelStyle: {
-      fontSize: 15
-    },
-
-  }
-});
-
 const MainStack = createStackNavigator({
   Home: {
-    screen: MainTabs,
-    navigationOptions: navOptionHandler
-  },
-  Setting: {
-    screen: Setting,
+    screen: HotelStack,
     navigationOptions: navOptionHandler
   },
   Profile: {
@@ -116,7 +74,7 @@ const app = createSwitchNavigator({
   app: appDrawer,
   auth: authStack
 }, {
-  initialRouteName: 'auth'
+  initialRouteName: 'app'
 })
 
 export default class App extends Component {

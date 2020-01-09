@@ -5,13 +5,16 @@ import {
     COMENZAR_SELECCIONAR_HOTEL,
     SELECCIONAR_HOTEL_EXITOSA, 
     SELECCIONAR_HOTEL_ERROR,
+    COMENZAR_BUSQUEDA_HOTELES,
+    BUSQUEDA_HOTELES_EXITOSA,
+    BUSQUEDA_HOTELES_ERROR
 } from '../types'
 
 
 import clienteAxios from '../config/axios'
 
 
-
+/// Acción para buscar todos los hoteles
 export function obtenerHoteles(){    
     return(dispatch) => {
         dispatch( obtenerHotelesComienzo() )
@@ -71,4 +74,34 @@ export const seleccionHotelExitosa = hotel => ({
 
 export const seleccionHotelError = () => ({
     type: SELECCIONAR_HOTEL_ERROR
+})
+
+// Acción para buscar hoteles especificos 
+
+export function buscarHotel(text){
+    return(dispatch) => {
+        dispatch( comenzarBuscarHotel() )
+
+        clienteAxios.get(`/hotel/buscar/${text}`)
+        .then( resultado => {
+            // console.log(resultado.data)
+            dispatch( busquedaHotelExitosa(resultado.data) )
+        })
+        .catch(error => {
+           dispatch( busquedaHotelError() )
+        })
+    }
+}
+
+export const comenzarBuscarHotel = () => ({
+    type: COMENZAR_BUSQUEDA_HOTELES
+})
+
+export const busquedaHotelExitosa = busqueda => ({
+    type: BUSQUEDA_HOTELES_EXITOSA,
+    payload: busqueda
+})
+
+export const busquedaHotelError = () => ({
+    type: BUSQUEDA_HOTELES_ERROR
 })

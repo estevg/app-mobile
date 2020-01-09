@@ -1,9 +1,6 @@
 export * from './SiderMenu'
 export * from './components/CustomHeader'
 
-export * from './screens/tabs/feed/Feed'
-export * from './screens/tabs/feed/FeedDetails'
-
 export * from './screens/tabs/search/Search'
 export * from './screens/tabs/search/SearchDetails'
 

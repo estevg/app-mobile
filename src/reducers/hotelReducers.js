@@ -14,7 +14,8 @@ const initialState = {
     hoteles: [],
     error: null,
     loading: false,
-    hotel: {}
+    hotel: {},
+    busqueda: []
 }
 
 export default function(state = initialState, action){
@@ -56,6 +57,27 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 hotel: {},
+                error: true,
+                loading: false
+            }
+
+
+        case COMENZAR_BUSQUEDA_HOTELES: 
+            return {
+                ...state,
+                loading: true,
+                busqueda: []
+            }
+        case BUSQUEDA_HOTELES_EXITOSA:
+            return {
+                ...state,
+                loading: false,
+                busqueda: action.payload
+            }
+        case BUSQUEDA_HOTELES_ERROR:
+            return {
+                ...state,
+                busqueda: [],
                 error: true,
                 loading: false
             }
